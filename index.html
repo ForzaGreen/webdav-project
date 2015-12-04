@@ -8,38 +8,74 @@
 
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 
-    <script src="js-webdav-client/src/000_header.js"></script>
-    <script src="js-webdav-client/src/001_exception.js"></script>
-    <script src="js-webdav-client/src/002_iehacks.js"></script>
-    <script src="js-webdav-client/src/client.js"></script>
-    <script src="js-webdav-client/src/codec.js"></script>
-    <script src="js-webdav-client/src/multistatus.js"></script>
-    <script src="js-webdav-client/src/property.js"></script>
-    <script src="js-webdav-client/src/response.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/src/000_header.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/src/001_exception.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/src/002_iehacks.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/src/client.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/src/codec.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/src/multistatus.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/src/property.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/src/response.js"></script>
 
     <script type="application/javascript" src="js/app.js"></script>
 
-    <script src="js-webdav-client/tests/resources/mock.js"></script>
-    <script src="js-webdav-client/tests/resources/qunit.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/tests/resources/mock.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/tests/resources/qunit.js"></script>
 
-    <script src="js-webdav-client/tests/unittests/0000_exception.js"></script>
-    <script src="js-webdav-client/tests/unittests/0010_codec.js"></script>
-    <script src="js-webdav-client/tests/unittests/0020_property.js"></script>
-    <script src="js-webdav-client/tests/unittests/0030_response.js"></script>
-    <script src="js-webdav-client/tests/unittests/0040_multistatus.js"></script>
-    <script src="js-webdav-client/tests/unittests/0050_client.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/tests/unittests/0000_exception.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/tests/unittests/0010_codec.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/tests/unittests/0020_property.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/tests/unittests/0030_response.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/tests/unittests/0040_multistatus.js"></script>
+    <script type="application/javascript"  src="js-webdav-client/tests/unittests/0050_client.js"></script>
 
     <h1>WebDAV Project</h1>
+
+    <h2>JS libraries:</h2>
     <p>This html imports:
     <ul>
-        <li>jQuery: http://api.jquery.com/jQuery.ajax/</li>
-        <li>js-webdav-client: https://github.com/sara-nl/js-webdav-client</li>
+        <li><a href="http://api.jquery.com/jQuery.ajax/">jQuery</a></li>
+        <li><a href="https://github.com/sara-nl/js-webdav-client">js-webdav-client</a></li>
     </ul>
     </p>
-    <p>Due to CORS problems, you need to open this page using the command:
-        <code>> chromium-browser --disable-web-security</code>
+
+    <h2>CORS:</h2>
+    <p>Due to <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> problems, you need to open this page using the command:
+        <br><code>$ google-chrome --disable-web-security</code>
+        <br>or:
+        <br><code>$ chromium-browser --disable-web-security</code>
     </p>
-    <p>Open the console: F12</p>
+
+    <h2>Tools:</h2>
+    <p>Chrome's Console: F12</p>
+
+<h2>Examples:</h2>
+<h3>Ajax jQuery:</h3>
+<p>PROPFIND method:
+    <br><code>$.ajax({ method: "PROPFIND", url:"http://localhost/webdav/ownCloudUser04/Documents/fichier6.txt"})</code>
+</p>
+<p>COPY method:
+    <br><code>$.ajax({ method: "COPY", url:"http://localhost/webdav/sample.txt", headers:{Destination:"http://localhost/webdav/sample3.txt"} })</code>
+</p>
+
+<h3>js-webdav-client:</h3>
+<p>Client declaration:
+    <br><code>c =  new nl.sara.webdav.Client("localhost/webdav", 0);</code>
+</p>
+<p>PROPFIND method:
+    <br><code>c.propfind("sample.txt", function (status, data, headers) {
+            console.log(status);
+            console.log(data);
+            console.log(headers);
+        });
+    </code>
+</p>
+<p>COPY method:
+    <br><code>c.copy("sample.txt", function(status, data, headers){  }, "http://localhost/webdav/sample3.txt");</code>
+</p>
+
+
+
 
 
 </body>
