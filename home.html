@@ -79,17 +79,29 @@
 
         <div class="col-md-8" role="main">
 
-            <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Add New
-                    <span class="caret"></span>
+            <div class="btn-group" role="group" aria-label="...">
+                <button ng-click="getParentDir()" ng-disabled="currentDirectory == 'wael'" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <li><a data-toggle="modal" data-target="#createFile" href="">File</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a data-toggle="modal" data-target="#createDir" href="">Directory</a></li>
-                </ul>
+                <button ng-click="refreshListFiles()" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                </button>
+
+                <div class="btn-group" role="group" class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Add New
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <li><a data-toggle="modal" data-target="#createFile" href="">File</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a data-toggle="modal" data-target="#createDir" href="">Directory</a></li>
+                    </ul>
+                </div>
+
             </div>
+
+
 
             <!-- Modal for creating directories -->
             <div id="createDir" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
@@ -112,8 +124,8 @@
             </div>
 
             <!-- Modal for creating files -->
-            <div id="createFile" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-                <div class="modal-dialog modal-sm">
+            <div id="createFile" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">New File</h4>
@@ -121,23 +133,14 @@
                         <div class="modal-body">
                             <form ng-submit="createFile()" id="fileinfo" name="fileinfo" class="form-inline">
                                 <div class="form-group">
-                                    <!--<label  class="sr-only" for="directoryName">File:</label>-->
-                                    <!--<input  id="uploadFile" name="file" required  type="file" class="form-control" placeholder="Enter file name">-->
                                     <label class="control-label">Select File</label>
                                     <input id="input-1" type="file" class="file">
                                 </div>
-                                <!--<button type="submit" class="btn btn-default">Upload</button>-->
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-            <button ng-click="getParentDir()" ng-disabled="currentDirectory == 'wael'" type="button" class="btn btn-default btn-sm">
-                <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
-            </button>
-
 
 
             <table class="table table-hover">

@@ -40,9 +40,22 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
         {"name": "file.txt", "type": "file", "glyphicon": "file", "modified": "2 days ago", "size": "2 KB"}
     ];
 
+    $scope.refreshListFiles = function() {
+        sendPostListFiles();
+    };
+
     $scope.getPhotoOrChangeDir = function(f) {
         if(f.type == "file") {
-            //open in modal if file
+            //TODO: open in modal if file
+            $http({
+                method: 'GET',
+                url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + f.name,
+                headers: { 'Content-Type': 'multipart/form-data' }
+            }).then(function successCallback(response) {
+                console.log(response);
+            }, function errorCallback(response) {
+                //
+            });
         } else if (f.type == "collection") {
             $scope.currentDirectory = $scope.currentDirectory + "/" + f.name;
             sendPostListFiles();
@@ -75,21 +88,22 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
         });
     };
 
+
+    //ok, ce n'est pas très propre de mélanger du jQuery avec du AngularJS, mais pas d'autre solution
+    $('#input-1').on('fileloaded', function(event, file, previewId, index, reader) {
+        $scope.newFile = file;
+    });
+
     $scope.createFile = function() {
-        var fd = new FormData(document.getElementById("fileinfo"));
-        var temp = $('#uploadFile').val().split("\\"); //or document.getElementById('uploadFile').value
-        var newFileName = temp[temp.length - 1];
-        //TODO: verify file doesn't exist in filesList
-        //TODO: modal for adding file ?
         $http({
             method: 'PUT',
-            url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + newFileName,
+            url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + $scope.newFile.name,
             headers: { 'Content-Type': 'multipart/form-data' },
-            data: fd
+            data: $scope.newFile
         }).then(function successCallback(response) {
             console.log(response);
             sendPostListFiles();
-            //$("#createDir").modal("hide");
+            $("#createFile").modal("hide");
         }, function errorCallback(response) {
             //
         });
