@@ -1,80 +1,181 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>WebDAV Project</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Private Cloud</title>
+
+
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+
 </head>
-<p>
+<body>
 
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<!-- jQuery -->
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<!-- jQuery contextMenu -->
+<script src="http://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.min.js" type="text/javascript"></script>
+<script src="http://swisnl.github.io/jQuery-contextMenu/dist/jquery.ui.position.min.js" type="text/javascript"></script>
 
-    <script type="application/javascript"  src="js-webdav-client/src/000_header.js"></script>
-    <script type="application/javascript"  src="js-webdav-client/src/001_exception.js"></script>
-    <script type="application/javascript"  src="js-webdav-client/src/002_iehacks.js"></script>
-    <script type="application/javascript"  src="js-webdav-client/src/client.js"></script>
-    <script type="application/javascript"  src="js-webdav-client/src/codec.js"></script>
-    <script type="application/javascript"  src="js-webdav-client/src/multistatus.js"></script>
-    <script type="application/javascript"  src="js-webdav-client/src/property.js"></script>
-    <script type="application/javascript"  src="js-webdav-client/src/response.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<!-- AngularJS -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular.min.js"></script>
+<!-- WebDAV js client -->
+<script src="lib/webdavlib.js"></script>
+<!-- my js apps -->
+<script src="js/app.js"></script>
 
-    <script type="application/javascript" src="js/app.js"></script>
+<nav class="navbar  navbar-inverse">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><strong>Eurecom</strong></a>
+        </div>
 
-    <script type="application/javascript"  src="js-webdav-client/tests/resources/mock.js"></script>
-    <script type="application/javascript"  src="js-webdav-client/tests/resources/qunit.js"></script>
-
-    <script type="application/javascript"  src="js-webdav-client/tests/unittests/0000_exception.js"></script>
-    <script type="application/javascript"  src="js-webdav-client/tests/unittests/0010_codec.js"></script>
-    <script type="application/javascript"  src="js-webdav-client/tests/unittests/0020_property.js"></script>
-    <script type="application/javascript"  src="js-webdav-client/tests/unittests/0030_response.js"></script>
-    <script type="application/javascript"  src="js-webdav-client/tests/unittests/0040_multistatus.js"></script>
-    <script type="application/javascript"  src="js-webdav-client/tests/unittests/0050_client.js"></script>
-
-    <h1>WebDAV Project</h1>
-
-    <h2>JS libraries:</h2>
-    <p>This html imports:
-    <ul>
-        <li><a href="http://api.jquery.com/jQuery.ajax/">jQuery</a></li>
-        <li><a href="https://github.com/sara-nl/js-webdav-client">js-webdav-client</a></li>
-    </ul>
-    </p>
-
-    <h2>CORS:</h2>
-    <p>Due to <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> problems, you need to open this page using the command:
-        <br><code>$ google-chrome --disable-web-security</code>
-        <br>or:
-        <br><code>$ chromium-browser --disable-web-security</code>
-    </p>
-
-    <h2>Tools:</h2>
-    <p>Chrome's Console: F12</p>
-
-<h2>Examples:</h2>
-<h3>Ajax jQuery:</h3>
-<p>PROPFIND method:
-    <br><code>$.ajax({ method: "PROPFIND", url:"http://localhost/webdav/ownCloudUser04/Documents/fichier6.txt"})</code>
-</p>
-<p>COPY method:
-    <br><code>$.ajax({ method: "COPY", url:"http://localhost/webdav/sample.txt", headers:{Destination:"http://localhost/webdav/sample3.txt"} })</code>
-</p>
-
-<h3>js-webdav-client:</h3>
-<p>Client declaration:
-    <br><code>c =  new nl.sara.webdav.Client("localhost/webdav", 0);</code>
-</p>
-<p>PROPFIND method:
-    <br><code>c.propfind("sample.txt", function (status, data, headers) {
-            console.log(status);
-            console.log(data);
-            console.log(headers);
-        });
-    </code>
-</p>
-<p>COPY method:
-    <br><code>c.copy("sample.txt", function(status, data, headers){  }, "http://localhost/webdav/sample3.txt");</code>
-</p>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Sign up</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
 
 
+<div  ng-app="loginApp" class="container">
+    <div class="row">
+        <div class="col-md-6" role="main">
+
+            <div class="panel panel-default">
+                <div class="panel-heading text-center" role="tab" id="headingOne">
+                    <h4 class="panel-title btn">
+                        <a role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="true">
+                            Connect to a proxy!
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                    <div  class="panel panel-info">
+                        <div class="panel-body">
+                            <form ng-submit="submit()"  ng-controller="LoginController">
+                                <div class="form-group">
+                                    <label for="proxyAddress1">Proxy Address</label>
+                                    <input ng-model="proxyAddress" type="url" class="form-control" id="proxyAddress1" placeholder="http://">
+                                </div>
+                                <div class="form-group">
+                                    <label for="username1">Username</label>
+                                    <input ng-model="username" type="text" class="form-control" id="username1" placeholder="Username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password1">Password</label>
+                                    <input ng-model="password" type="password" class="form-control" id="password1" placeholder="Password">
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> Remember me
+                                    </label>
+                                </div>
+                                <input type="submit" href="" class="btn btn-default" value="Log in"></input>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Small modal for login failed -->
+            <div id="loginFailed" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Login Failed</h4>
+                        </div>
+                        <div class="modal-body">
+                            Sorry bro
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-6" role="main">
+
+            <div class="panel panel-default">
+                <div class="panel-heading text-center" role="tab" id="headingTwo">
+                    <h4 class="panel-title btn">
+                        <a role="button" data-toggle="collapse" href="#collapseTwo" aria-expanded="true">
+                            Register to a proxy!
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel panel-info">
+                        <div class="panel-body">
+                            <form ng-submit="submit()"  ng-controller="SignupController">
+                                <div class="form-group">
+                                    <label for="proxyAddress2">Proxy Address</label>
+                                    <input ng-model="proxyAddress" type="url" class="form-control" id="proxyAddress2" placeholder="http://">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputToken2">Token</label>
+                                    <input ng-model="token" type="text" class="form-control" id="exampleInputToken2" placeholder="Ask the proxy's owner for a token">
+                                </div>
+                                <div class="form-group">
+                                    <label for="username2">Username</label>
+                                    <input ng-model="username" type="text" class="form-control" id="username2" placeholder="Username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password2">Password</label>
+                                    <input ng-model="password" type="password" class="form-control" id="password2" placeholder="Password">
+                                </div>
+                                <!-- TODO: WebDAV Server Address -->
+                                <input type="submit" href="" class="btn btn-default" value="Sign up"></input>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Small modal for signup failed -->
+            <div id="signupFailed" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Signup Failed</h4>
+                        </div>
+                        <div class="modal-body">
+                            Sorry bro
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
 
 
 

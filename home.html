@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Private Cloud</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <!-- jQuery contextMenu -->
+    <!--<link href="http://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.min.css" rel="stylesheet" type="text/css" />-->
+    <!-- FileInput -->
+    <link rel="stylesheet" href="lib/fileinput.min.css">
+
+</head>
+<body>
+
+<!-- jQuery -->
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<!-- jQuery contextMenu -->
+<!--<script src="http://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.min.js" type="text/javascript"></script>-->
+<!--<script src="http://swisnl.github.io/jQuery-contextMenu/dist/jquery.ui.position.min.js" type="text/javascript"></script>-->
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<!-- AngularJS -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular.min.js"></script>
+<!-- WebDAV js client -->
+<script src="lib/webdavlib.js"></script>
+<!-- Moment.js -->
+<script src="lib/moment.min.js"></script>
+<!-- fileSize.js -->
+<!--<script src="lib/filesize.min.js" type="text/javascript"></script>-->
+<script src="http://cdn.filesizejs.com/filesize.min.js"></script>
+<!-- FileInput -->
+<script src="lib/fileinput.min.js"></script>
+<!-- my js apps -->
+<script src="js/files.js"></script>
+
+
+<nav class="navbar  navbar-inverse">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><strong>Eurecom</strong></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Sign up</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<div ng-app="filesApp" class="container">
+
+    <div  ng-controller="FilesController" class="row">
+
+        <div class="col-md-8" role="main">
+
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Add New
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li><a data-toggle="modal" data-target="#createFile" href="">File</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a data-toggle="modal" data-target="#createDir" href="">Directory</a></li>
+                </ul>
+            </div>
+
+            <!-- Modal for creating directories -->
+            <div id="createDir" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">New Directory</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form ng-submit="createDirectory()" class="form-inline">
+                                <div class="form-group">
+                                    <label  class="sr-only" for="directoryName">Directory:</label>
+                                    <input ng-model="newDirName" type="text" class="form-control" id="directoryName" placeholder="Enter directory name">
+                                </div>
+                                <button type="submit" class="btn btn-default">Create</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for creating files -->
+            <div id="createFile" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">New File</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form ng-submit="createFile()" id="fileinfo" name="fileinfo" class="form-inline">
+                                <div class="form-group">
+                                    <!--<label  class="sr-only" for="directoryName">File:</label>-->
+                                    <!--<input  id="uploadFile" name="file" required  type="file" class="form-control" placeholder="Enter file name">-->
+                                    <label class="control-label">Select File</label>
+                                    <input id="input-1" type="file" class="file">
+                                </div>
+                                <!--<button type="submit" class="btn btn-default">Upload</button>-->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <button ng-click="getParentDir()" ng-disabled="currentDirectory == 'wael'" type="button" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
+            </button>
+
+
+
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th></th>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Share</th>
+                    <th>Size</th>
+                    <th>Modified</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr ng-repeat="f in files">
+                    <th class="text-muted" scope="row">{{$index + 1}}</th>
+                    <td><a ng-click="deletePhotoOrDir(f)" href=""><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
+                    <td><span class="glyphicon glyphicon-{{f.glyphicon}}" aria-hidden="true"></span></td>
+                    <td ng-click="getPhotoOrChangeDir(f)" class="text-primary"><strong>{{f.name}}</strong></td>
+                    <td>--</td>
+                    <td>{{f.size}}</td>
+                    <td>{{f.modified}}</td>
+                </tr>
+
+                <!--<tr class="context-menu-one">-->
+                    <!--<th class="text-muted" scope="row">1</th>-->
+                    <!--<td><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span></td>-->
+                    <!--<td class="text-primary"><strong>Mark</strong></td>-->
+                    <!--<td>Otto</td>-->
+                    <!--<td>6 MB</td>-->
+                    <!--<td>2 days ago</td>-->
+                <!--</tr>-->
+                <!--<tr class="context-menu-one">-->
+                    <!--<th scope="row">2</th>-->
+                    <!--<td><span class="glyphicon glyphicon-picture" aria-hidden="true"></span></td>-->
+                    <!--<td class="text-primary">casa.jpeg</td>-->
+                    <!--<td>Thornton</td>-->
+                    <!--<td>6 MB</td>-->
+                    <!--<td>2 days ago</td>-->
+                <!--</tr>-->
+                <!--<tr class="context-menu-one">-->
+                    <!--<th scope="row">3</th>-->
+                    <!--<td><span class="glyphicon glyphicon-file" aria-hidden="true"></span></td>-->
+                    <!--<td class="text-primary">sample.txt</td>-->
+                    <!--<td>the Bird</td>-->
+                    <!--<td>6 MB</td>-->
+                    <!--<td>2 days ago</td>-->
+                <!--</tr>-->
+                </tbody>
+            </table>
+
+        </div>
+
+
+        <div ng-controller="TokenController" class="col-md-4" role="main">
+
+            <!-- Button trigger modal -->
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Add New User (generate token)
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu3">
+                    <li><a ng-click="withoutServer()" data-toggle="modal" data-target="#myModal" href="#">Without server</a></li>
+                    <li><a ng-click="withServer()" data-toggle="modal" data-target="#myModal" href="#">With server</a></li>
+                </ul>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Give your fiend this token</h4>
+                        </div>
+                        <div class="modal-body text-center">
+                            <h2><code>{{token}}</code></h2>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+</body>
+</html>

@@ -1,43 +1,84 @@
-/**
- * Created by wael on 27/10/15.
- */
 
-console.log("ok");
-var davClient;
+var app = angular.module('loginApp', []);
 
-connectDav();
+app.controller('LoginController', ['$scope', '$http', function($scope, $http) {
 
+    $scope.submit = function() {
+        localStorage.setItem("proxyAddress", $scope.proxyAddress);
 
-function connectDav() {
-    //console.log("Connecting WebDAV...");
-    var useHTTPS = true;
-    //if(location.href.indexOf("https") === 0) {
-    //    useHTTPS = true;
-    //}
-    //davClient = new nl.sara.webdav.Client(location.host, useHTTPS, location.port);
-    // https://dav.box.com/dav
-    davClient = new nl.sara.webdav.Client("dav.box.com/dav", useHTTPS);
+        $http({
+            method: 'POST',
+            url: $scope.proxyAddress + '/proxy/login',
+            data: { "username": $scope.username, "password": $scope.password }
+        }).then(function successCallback(response) {
+            console.log("post sent :)");
+            if(response.data == "login success") {
+                window.location.href='home.html';
+            } else {
+                //show a module saying error loging
+                $("#loginFailed").modal("show");
+            }
+        }, function errorCallback(response) {
+            $("#loginFailed").modal("show");
+        });
+    };
 
-}
+}]);
 
-filePath = "/owncloud/remote.php/webdav/ownCloudUserManual.pdf"; // dav://localhost
-newFilePath = "/owncloud/remote.php/webdav/newFile.pdf";
+app.controller('SignupController', ['$scope', '$http', function($scope, $http) {
 
-var copyFile = function(filePath, newFilePath) {
-    console.log("Copying file: " + filePath + " to: " + newFilePath);
-    davClient.copy(
-        filePath,
-        function( status, data, headers ) {
-            console.log("copied ? ");
-            console.log(status);
-            console.log(data);
-            console.log(headers);
+    $scope.submit = function() {
+        localStorage.setItem("proxyAddress", $scope.proxyAddress);
+
+        $http({
+            method: 'POST',
+            url: $scope.proxyAddress + '/proxy/signup',
+            data: {
+                "username": $scope.username,
+                "password": $scope.password,
+                "token": $scope.token
+            }
+        }).then(function successCallback(response) {
+            console.log("post sent :)");
+            if(response.data == "signup success") {
+                window.location.href='home.html';
+            } else {
+                //show a module saying error loging
+                $("#signupFailed").modal("show");
+            }
+        }, function errorCallback(response) {
+            $("#signupFailed").modal("show");
+        });
+    };
+
+}]);
+
+// jQuery context-menu:
+// Right Click
+$(function() {
+    $.contextMenu({
+        selector: '.context-menu-one',
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            window.console && console.log(m) || alert(m);
         },
-        newFilePath
-        //davClient.FAIL_ON_OVERWRITE
-    );
-};
+        items: {
+            "edit": {name: "Edit", icon: "edit"},
+            "cut": {name: "Cut", icon: "cut"},
+            copy: {name: "Copy", icon: "copy"},
+            "paste": {name: "Paste", icon: "paste"},
+            "delete": {name: "Delete", icon: "delete"},
+            "sep1": "---------",
+            "quit": {name: "Quit", icon: function(){
+                return 'context-menu-icon context-menu-icon-quit';
+            }}
+        }
+    });
 
-//copyFile(filePath, newFilePath);
+    $('.context-menu-one').on('click', function(e){
+        console.log('clicked', this);
+    })
+});
+
 
 
