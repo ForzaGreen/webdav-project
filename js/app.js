@@ -36,7 +36,8 @@ app.controller('SignupController', ['$scope', '$http', function($scope, $http) {
             data: {
                 "username": $scope.username,
                 "password": $scope.password,
-                "token": $scope.token
+                "token": $scope.token,
+                "type" : $scope.userType
             }
         }).then(function successCallback(response) {
             console.log("post sent :)");
