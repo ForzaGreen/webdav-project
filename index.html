@@ -112,8 +112,7 @@
                         <div class="modal-header">
                             <h4 class="modal-title">Login Failed</h4>
                         </div>
-                        <div class="modal-body">
-                            Sorry bro
+                        <div class="modal-body" id="loginError">
                         </div>
                     </div>
                 </div>
@@ -152,8 +151,14 @@
                                     <input ng-model="password" name="inputPassword2" type="password" class="form-control" id="password2" placeholder="Password">
                                 </div>
                                 <div class="form-group">
-                                    <label for="type">Type</label>
-                                    <input ng-model="userType" name="inputType" type="text" class="form-control" id="type" placeholder="Type of user">
+                                    <label>Type : </label>
+                                    <!--<input ng-model="userType" name="inputType" type="text" class="form-control" id="type" placeholder="Type of user">-->
+                                    <label class="radio-inline">
+                                        <input type="radio" ng-model="userType" name="inlineRadioOptions" id="inlineRadio2" value="B"> With server
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" ng-model="userType" name="inlineRadioOptions" id="inlineRadio3" value="C"> Without server
+                                    </label>
                                 </div>
                                 <!-- TODO: WebDAV Server Address -->
                                 <input type="submit" href="" class="btn btn-default" value="Sign up"></input>
@@ -170,8 +175,7 @@
                         <div class="modal-header">
                             <h4 class="modal-title">Signup Failed</h4>
                         </div>
-                        <div class="modal-body">
-                            Sorry bro
+                        <div class="modal-body" id="signUpError">
                         </div>
                     </div>
                 </div>

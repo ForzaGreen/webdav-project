@@ -12,12 +12,25 @@ app.controller('LoginController', ['$scope', '$http', function($scope, $http) {
             data: { "username": $scope.username, "password": $scope.password }
         }).then(function successCallback(response) {
             console.log("post sent :)");
-            if(response.data == "login success") {
+            switch (response.data) {
+                case 'login success':
+                    window.location.href='home.html';
+                    break;
+                case 'wrong password':
+                    $("#loginFailed").modal("show");
+                    $("#loginError").text("Wrong Password");
+                    break;
+                case 'no such user':
+                    $("#loginFailed").modal("show");
+                    $("#loginError").text("No such user");
+                    break;                    
+            }
+            /*if(response.data == "login success") {
                 window.location.href='home.html';
             } else {
                 //show a module saying error loging
                 $("#loginFailed").modal("show");
-            }
+            } */
         }, function errorCallback(response) {
             $("#loginFailed").modal("show");
         });
@@ -41,12 +54,21 @@ app.controller('SignupController', ['$scope', '$http', function($scope, $http) {
             }
         }).then(function successCallback(response) {
             console.log("post sent :)");
-            if(response.data == "signup success") {
+            switch (response.data) {
+                case "signup success":
+                    window.location.href='home.html';
+                    break;
+                case "user already exists":
+                    $("#signupFailed").modal("show");
+                    $("#signUpError").text("User already exists");
+                    break;
+            }
+            /*if(response.data == "signup success") {
                 window.location.href='home.html';
             } else {
                 //show a module saying error loging
                 $("#signupFailed").modal("show");
-            }
+            } */
         }, function errorCallback(response) {
             $("#signupFailed").modal("show");
         });
