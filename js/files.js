@@ -62,7 +62,16 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
                     }, false);
                     reader.readAsDataURL(response.data);
                 }
-                // show text in different modal
+                // show pdf in different modal
+                if ( response.data.type.includes("pdf") ) {
+                    console.log("-----------------------------");
+                    $("#pdfModal").modal("show");
+                    var reader  = new FileReader();
+                    reader.addEventListener("load", function () {
+                        $("#myPdf").attr("data", reader.result);
+                    }, false);
+                    reader.readAsDataURL(response.data);
+                }
                 if ( response.data.type.includes("text") ) {
                     //TODO: show text
                 }
