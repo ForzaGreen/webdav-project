@@ -5,6 +5,7 @@ app.controller('LoginController', ['$scope', '$http', function($scope, $http) {
 
     $scope.submit = function() {
         localStorage.setItem("proxyAddress", $scope.proxyAddress);
+        localStorage.setItem("username", $scope.username.toLowerCase()); //
 
         $http({
             method: 'POST',
@@ -37,7 +38,8 @@ app.controller('SignupController', ['$scope', '$http', function($scope, $http) {
                 "username": $scope.username,
                 "password": $scope.password,
                 "token": $scope.token,
-                "type" : $scope.userType
+                "type" : $scope.userType,
+                "webdavServer": $scope.webdavServer
             }
         }).then(function successCallback(response) {
             console.log("post sent :)");

@@ -33,7 +33,8 @@ app.controller('TokenController', ['$scope', '$http', function($scope, $http) {
 app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
 
     $scope.proxyAddress = localStorage.getItem("proxyAddress");
-    $scope.currentDirectory = 'wael';
+    //$scope.currentDirectory = 'wael';
+    $scope.currentDirectory = localStorage.getItem("username");;
 
     $scope.files = [
         {"name": "Wael", "type": "collection", "glyphicon": "folder-close", "modified": "2 days ago", "size": "2 KB"},
