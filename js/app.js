@@ -5,6 +5,7 @@ app.controller('LoginController', ['$scope', '$http', function($scope, $http) {
 
     $scope.submit = function() {
         localStorage.setItem("proxyAddress", $scope.proxyAddress);
+        localStorage.setItem("username", $scope.username.toLowerCase()); //
 
         $http({
             method: 'POST',
@@ -51,6 +52,8 @@ app.controller('SignupController', ['$scope', '$http', function($scope, $http) {
                 "password": $scope.password,
                 "token": $scope.token,
                 "type" : $scope.userType
+                "type" : $scope.userType,
+                "webdavServer": $scope.webdavServer
             }
         }).then(function successCallback(response) {
             console.log("post sent :)");
@@ -78,30 +81,30 @@ app.controller('SignupController', ['$scope', '$http', function($scope, $http) {
 
 // jQuery context-menu:
 // Right Click
-$(function() {
-    $.contextMenu({
-        selector: '.context-menu-one',
-        callback: function(key, options) {
-            var m = "clicked: " + key;
-            window.console && console.log(m) || alert(m);
-        },
-        items: {
-            "edit": {name: "Edit", icon: "edit"},
-            "cut": {name: "Cut", icon: "cut"},
-            copy: {name: "Copy", icon: "copy"},
-            "paste": {name: "Paste", icon: "paste"},
-            "delete": {name: "Delete", icon: "delete"},
-            "sep1": "---------",
-            "quit": {name: "Quit", icon: function(){
-                return 'context-menu-icon context-menu-icon-quit';
-            }}
-        }
-    });
-
-    $('.context-menu-one').on('click', function(e){
-        console.log('clicked', this);
-    })
-});
+//$(function() {
+//    $.contextMenu({
+//        selector: '.context-menu-one',
+//        callback: function(key, options) {
+//            var m = "clicked: " + key;
+//            window.console && console.log(m) || alert(m);
+//        },
+//        items: {
+//            "edit": {name: "Edit", icon: "edit"},
+//            "cut": {name: "Cut", icon: "cut"},
+//            copy: {name: "Copy", icon: "copy"},
+//            "paste": {name: "Paste", icon: "paste"},
+//            "delete": {name: "Delete", icon: "delete"},
+//            "sep1": "---------",
+//            "quit": {name: "Quit", icon: function(){
+//                return 'context-menu-icon context-menu-icon-quit';
+//            }}
+//        }
+//    });
+//
+//    $('.context-menu-one').on('click', function(e){
+//        console.log('clicked', this);
+//    })
+//});
 
 
 

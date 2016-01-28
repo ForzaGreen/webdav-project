@@ -160,7 +160,20 @@
                                         <input type="radio" ng-model="userType" name="inlineRadioOptions" id="inlineRadio3" value="C"> Without server
                                     </label>
                                 </div>
-                                <!-- TODO: WebDAV Server Address -->
+                                <div class="form-group">
+                                    <label>Type : </label>
+                                    <!--<input ng-model="userType" name="inputType" type="text" class="form-control" id="type" placeholder="Type of user">-->
+                                    <label class="radio-inline">
+                                        <input type="radio" ng-model="userType" name="inlineRadioOptions" id="inlineRadio2" value="B"> With server
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" ng-model="userType" name="inlineRadioOptions" id="inlineRadio3" value="C"> Without server
+                                    </label>
+                                </div>
+                                <div class="form-group" ng-show="userType == 'B'">
+                                    <label for="webdavServer">WebDAV Server</label>
+                                    <input ng-model="webdavServer" type="url" class="form-control" id="webdavServer" placeholder="http://">
+                                </div>
                                 <input type="submit" href="" class="btn btn-default" value="Sign up"></input>
                             </form>
                         </div>

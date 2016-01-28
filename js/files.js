@@ -33,7 +33,8 @@ app.controller('TokenController', ['$scope', '$http', function($scope, $http) {
 app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
 
     $scope.proxyAddress = localStorage.getItem("proxyAddress");
-    $scope.currentDirectory = 'wael';
+    //$scope.currentDirectory = 'wael';
+    $scope.currentDirectory = localStorage.getItem("username");;
 
     $scope.files = [
         {"name": "Wael", "type": "collection", "glyphicon": "folder-close", "modified": "2 days ago", "size": "2 KB"},
@@ -46,13 +47,36 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
 
     $scope.getPhotoOrChangeDir = function(f) {
         if(f.type == "file") {
-            //TODO: open in modal if file
             $http({
                 method: 'GET',
                 url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + f.name,
-                headers: { 'Content-Type': 'multipart/form-data' }
+                responseType: "blob"
             }).then(function successCallback(response) {
                 console.log(response);
+                // show image in modal
+                if ( response.data.type.includes("image") ) {
+                    $("#imgModal").modal("show");
+                    var reader  = new FileReader();
+                    reader.addEventListener("load", function () {
+                        $("#myImg").attr("src", reader.result);
+                    }, false);
+                    reader.readAsDataURL(response.data);
+                }
+                // show pdf in different modal
+                if ( response.data.type.includes("pdf") ) {
+                    console.log("-----------------------------");
+                    $("#pdfModal").modal("show");
+                    var reader  = new FileReader();
+                    reader.addEventListener("load", function () {
+                        $("#myPdf").attr("data", reader.result);
+                    }, false);
+                    reader.readAsDataURL(response.data);
+                }
+                if ( response.data.type.includes("text") ) {
+                    //TODO: show text
+                }
+
+
             }, function errorCallback(response) {
                 //
             });
@@ -98,7 +122,8 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
         $http({
             method: 'PUT',
             url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + $scope.newFile.name,
-            headers: { 'Content-Type': 'multipart/form-data' },
+            //url: "http://localhost:6002/" + $scope.newFile.name,
+            headers: { 'Content-Type': 'image/jpeg' },
             data: $scope.newFile
         }).then(function successCallback(response) {
             console.log(response);
@@ -176,27 +201,27 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
 // I'm not using it for the moment: to activate it
 //      * add  class="context-menu-one" to <tr>
 //      * uncomment <script src=""...> (jQuery contextMenu)
-$(function() {
-    $.contextMenu({
-        selector: '.context-menu-one',
-        callback: function(key, options) {
-            var m = "clicked: " + key;
-            window.console && console.log(m) || alert(m);
-        },
-        items: {
-            "edit": {name: "Edit", icon: "edit"},
-            "cut": {name: "Cut", icon: "cut"},
-            copy: {name: "Copy", icon: "copy"},
-            "paste": {name: "Paste", icon: "paste"},
-            "delete": {name: "Delete", icon: "delete"},
-            "sep1": "---------",
-            "quit": {name: "Quit", icon: function(){
-                return 'context-menu-icon context-menu-icon-quit';
-            }}
-        }
-    });
-
-    $('.context-menu-one').on('click', function(e){
-        console.log('clicked', this);
-    })
-});
+//$(function() {
+//    $.contextMenu({
+//        selector: '.context-menu-one',
+//        callback: function(key, options) {
+//            var m = "clicked: " + key;
+//            window.console && console.log(m) || alert(m);
+//        },
+//        items: {
+//            "edit": {name: "Edit", icon: "edit"},
+//            "cut": {name: "Cut", icon: "cut"},
+//            copy: {name: "Copy", icon: "copy"},
+//            "paste": {name: "Paste", icon: "paste"},
+//            "delete": {name: "Delete", icon: "delete"},
+//            "sep1": "---------",
+//            "quit": {name: "Quit", icon: function(){
+//                return 'context-menu-icon context-menu-icon-quit';
+//            }}
+//        }
+//    });
+//
+//    $('.context-menu-one').on('click', function(e){
+//        console.log('clicked', this);
+//    })
+//});
