@@ -34,7 +34,8 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
 
     $scope.proxyAddress = localStorage.getItem("proxyAddress");
     //$scope.currentDirectory = 'wael';
-    $scope.currentDirectory = localStorage.getItem("username");;
+    $scope.currentDirectory = localStorage.getItem("username");
+    $scope.username = localStorage.getItem("username");
 
     $scope.files = [
         {"name": "Wael", "type": "collection", "glyphicon": "folder-close", "modified": "2 days ago", "size": "2 KB"},
@@ -64,7 +65,6 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
                 }
                 // show pdf in different modal
                 if ( response.data.type.includes("pdf") ) {
-                    console.log("-----------------------------");
                     $("#pdfModal").modal("show");
                     var reader  = new FileReader();
                     reader.addEventListener("load", function () {
