@@ -44,13 +44,37 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
         sendPostListFiles();
     };
 
+    $scope.showAuthentication = function(f) {
+        $("#keyModal").modal("show");
+        $scope.currentFile=f;
+    };
+
+    $scope.authenticate = function() {
+        var f = $scope.currentFile;
+        console.log(f.name);
+        $http({
+                method: 'POST',
+                url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + f.name,
+                headers: { 'Content-Type': 'multipart/form-data', 'resource-key' : md5($scope.resourceKey) },
+            }).then(function successCallback(response) {
+                if (response.data == 'Good password') {
+                    $("#keyModal").modal("hide");
+                    $scope.getPhotoOrChangeDir(f);
+                }
+                else {alert("Wrong Password !");}
+                console.log(response);
+            }, function errorCallback(response) {
+                //
+        });
+    }
+
     $scope.getPhotoOrChangeDir = function(f) {
         if(f.type == "file") {
             //TODO: open in modal if file
             $http({
                 method: 'GET',
                 url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + f.name,
-                headers: { 'Content-Type': 'multipart/form-data' }
+                headers: { 'Content-Type': 'multipart/form-data' },
             }).then(function successCallback(response) {
                 console.log(response);
             }, function errorCallback(response) {
@@ -177,27 +201,27 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
 // I'm not using it for the moment: to activate it
 //      * add  class="context-menu-one" to <tr>
 //      * uncomment <script src=""...> (jQuery contextMenu)
-$(function() {
-    $.contextMenu({
-        selector: '.context-menu-one',
-        callback: function(key, options) {
-            var m = "clicked: " + key;
-            window.console && console.log(m) || alert(m);
-        },
-        items: {
-            "edit": {name: "Edit", icon: "edit"},
-            "cut": {name: "Cut", icon: "cut"},
-            copy: {name: "Copy", icon: "copy"},
-            "paste": {name: "Paste", icon: "paste"},
-            "delete": {name: "Delete", icon: "delete"},
-            "sep1": "---------",
-            "quit": {name: "Quit", icon: function(){
-                return 'context-menu-icon context-menu-icon-quit';
-            }}
-        }
-    });
+// $(function() {
+//     $.contextMenu({
+//         selector: '.context-menu-one',
+//         callback: function(key, options) {
+//             var m = "clicked: " + key;
+//             window.console && console.log(m) || alert(m);
+//         },
+//         items: {
+//             "edit": {name: "Edit", icon: "edit"},
+//             "cut": {name: "Cut", icon: "cut"},
+//             copy: {name: "Copy", icon: "copy"},
+//             "paste": {name: "Paste", icon: "paste"},
+//             "delete": {name: "Delete", icon: "delete"},
+//             "sep1": "---------",
+//             "quit": {name: "Quit", icon: function(){
+//                 return 'context-menu-icon context-menu-icon-quit';
+//             }}
+//         }
+//     });
 
-    $('.context-menu-one').on('click', function(e){
-        console.log('clicked', this);
-    })
-});
+//     $('.context-menu-one').on('click', function(e){
+//         console.log('clicked', this);
+//     })
+// });
