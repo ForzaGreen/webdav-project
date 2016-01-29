@@ -51,7 +51,6 @@ app.controller('SignupController', ['$scope', '$http', function($scope, $http) {
                 "username": $scope.username,
                 "password": $scope.password,
                 "token": $scope.token,
-                "type" : $scope.userType
                 "type" : $scope.userType,
                 "webdavServer": $scope.webdavServer
             }
