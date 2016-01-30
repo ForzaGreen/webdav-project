@@ -82,13 +82,35 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
 
     $scope.getPhotoOrChangeDir = function(f) {
         if(f.type == "file") {
-            //TODO: open in modal if file
             $http({
                 method: 'GET',
                 url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + f.name,
-                headers: { 'Content-Type': 'multipart/form-data' },
+                responseType: "blob"
             }).then(function successCallback(response) {
                 console.log(response);
+                // show image in modal
+                if ( response.data.type.includes("image") ) {
+                    $("#imgModal").modal("show");
+                    var reader  = new FileReader();
+                    reader.addEventListener("load", function () {
+                        $("#myImg").attr("src", reader.result);
+                    }, false);
+                    reader.readAsDataURL(response.data);
+                }
+                // show pdf in different modal
+                if ( response.data.type.includes("pdf") ) {
+                    $("#pdfModal").modal("show");
+                    var reader  = new FileReader();
+                    reader.addEventListener("load", function () {
+                        $("#myPdf").attr("data", reader.result);
+                    }, false);
+                    reader.readAsDataURL(response.data);
+                }
+                if ( response.data.type.includes("text") ) {
+                    //TODO: show text
+                }
+
+
             }, function errorCallback(response) {
                 //
             });
