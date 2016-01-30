@@ -45,7 +45,19 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
     };
 
     $scope.showAuthentication = function(f) {
-        $("#keyModal").modal("show");
+        $http({
+                method: 'GET',
+                url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + f.name,
+                headers: { 'Content-Type': 'multipart/form-data' },
+            }).then(function successCallback(response) {
+                if (response.data == "Encrypted") {
+                    $("#keyModal").modal("show");
+                }
+                else {$scope.getPhotoOrChangeDir(f);}
+                console.log(response);
+             }, function errorCallback(response) {
+                //
+            });
         $scope.currentFile=f;
     };
 
@@ -103,7 +115,7 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
         $http({
             method: 'MKCOL',
             url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + $scope.newDirName + '/',
-            headers: { 'dir-key' : md5($scope.dirKey) }
+            headers: { 'dir-key' : md5($scope.dirKey)? md5($scope.dirKey):null}
         }).then(function successCallback(response) {
             console.log(response);
             sendPostListFiles();
@@ -123,7 +135,7 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
         $http({
             method: 'PUT',
             url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + $scope.newFile.name,
-            headers: { 'Content-Type': 'multipart/form-data', 'file-key' : md5($scope.fileKey) },
+            headers: { 'Content-Type': 'multipart/form-data', 'file-key' : ($scope.fileKey)? md5($scope.fileKey):null },
             data: $scope.newFile//, "file_key" : $scope.fileKey }
         }).then(function successCallback(response) {
             console.log(response);

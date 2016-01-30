@@ -118,7 +118,7 @@
                                     <input ng-model="newDirName" type="text" class="form-control" id="directoryName" placeholder="Enter directory name">
                                 </div>
                                 <div class="form-group">
-                                    <label  class="sr-only" for="directoryName">Directory Key:</label>
+                                    <label  class="sr-only" for="directoryName">Directory Key (optional):</label>
                                     <input ng-model="dirKey" type="text" class="form-control" id="directoryKey" placeholder="Enter directory key">
                                 </div>
                                 <button type="submit" class="btn btn-default">Create</button>
@@ -142,7 +142,7 @@
                                     <input id="input-1" type="file" class="file">
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label">File Key</label>
+                                    <label class="control-label">File Key (optional):</label>
                                     <input ng-model="fileKey" name="file-key" type="password" class="form-control" id="file-key" placeholder="Custom File Key">
                                 </div>
                             </form>
@@ -177,7 +177,7 @@
                                 <div class="modal-header">
                                     <form ng-submit="authenticate()" id="fileinfo" name="fileinfo" class="form-inline">
                                         <div class="form-group">
-                                            <label class="control-label">Please enter the Resource Key</label>
+                                            <label class="control-label">This resource is locked : please enter the Key</label>
                                             <input ng-model="resourceKey" name="resource-key" type="password" class="form-control" id="resource-key">
                                         </div>
                                         <input type="submit" href="" class="btn btn-default" value="OK"></input>
