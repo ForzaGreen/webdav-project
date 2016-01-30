@@ -135,7 +135,7 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
         $http({
             method: 'PUT',
             url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + $scope.newFile.name,
-            headers: { 'Content-Type': 'multipart/form-data', 'file-key' : ($scope.fileKey)? md5($scope.fileKey):null },
+            headers: { 'Content-Type': 'image/jpeg', 'file-key' : ($scope.fileKey)? md5($scope.fileKey):null },
             data: $scope.newFile//, "file_key" : $scope.fileKey }
         }).then(function successCallback(response) {
             console.log(response);
