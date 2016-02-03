@@ -47,7 +47,7 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
     $scope.showAuthentication = function(f) {
         $http({
                 method: 'GET',
-                url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + f.name,
+                url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + f.name + '/authentication',
                 headers: { 'Content-Type': 'multipart/form-data' },
             }).then(function successCallback(response) {
                 if (response.data == "Encrypted") {
@@ -66,7 +66,7 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
         console.log(f.name);
         $http({
                 method: 'POST',
-                url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + f.name,
+                url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + f.name + '/authentication',
                 headers: { 'Content-Type': 'multipart/form-data', 'resource-key' : md5($scope.resourceKey) },
             }).then(function successCallback(response) {
                 if (response.data == 'Good password') {
