@@ -3,8 +3,8 @@ var app = angular.module('loginApp', []);
 
 app.controller('LoginController', ['$scope', '$http', function($scope, $http) {
 
-    $scope.proxyAddress = "http://52.88.66.246:5000";
-    $scope.username = "Wael";
+    $scope.proxyAddress = "https://52.88.66.246:5001";
+    $scope.username = ""; //"Wael";
     $scope.submit = function() {
         localStorage.setItem("proxyAddress", $scope.proxyAddress);
         localStorage.setItem("username", $scope.username.toLowerCase()); //
