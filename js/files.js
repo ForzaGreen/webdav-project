@@ -4,6 +4,10 @@
 
 var app = angular.module('filesApp', []);
 
+//just for demo:
+localStorage.setItem("proxyAddress", "http://52.88.66.246:5005");
+localStorage.setItem("username", "wael"); //
+
 app.controller('TokenController', ['$scope', '$http', function($scope, $http) {
 
     $scope.proxyAddress = localStorage.getItem("proxyAddress"); //address stored in login phase
