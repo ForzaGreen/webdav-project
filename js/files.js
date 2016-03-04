@@ -138,6 +138,7 @@ app.controller('FilesController', ['$scope', '$http', function($scope, $http) {
 
     $scope.createDirectory = function() {
         console.log($scope.newDirName);
+        $scope.dirKey = " "; //pour la démo
         $http({
             method: 'MKCOL',
             url: $scope.proxyAddress + '/proxy/dav/' + $scope.currentDirectory + '/' + $scope.newDirName + '/',
